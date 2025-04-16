@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Assistant</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* General Body Styles */
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            color: #f8f9fa;
+            text-align: center;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-slideshow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            background-color: rgba(0,0,0,0.6); /* Darker overlay */
+            background-blend-mode: multiply; /* More intense blending */
+        }
+
+        /* Content Wrapper */
+        .content-wrapper {
+            background-color: rgba(30, 30, 36, 0.85); /* Dark semi-transparent */
+            backdrop-filter: blur(5px);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Section */
+        .header {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff6b4a, #ff8e53);
+            padding: 25px;
+            letter-spacing: 1px;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 10;
+        }
+
+        .sub-header {
+            font-size: 1.5rem;
+            margin: 25px 0 40px;
+            color: #e9ecef;
+            font-weight: 400;
+            position: relative;
+        }
+
+        /* Container for Exercises */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* Exercise Box */
+        .exercise {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(45, 45, 55, 0.95); /* Dark card background */
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 280px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: none;
+            overflow: hidden;
+            position: relative;
+            z-index: 5;
+        }
+
+        .exercise:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            background: rgba(55, 55, 65, 0.95); /* Slightly lighter on hover */
+        }
+
+        .exercise::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(135deg, #ff6b4a, #ff8e53);
+        }
+
+        /* Exercise Image */
+        .exercise-image {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            border: 2px solid rgba(255, 107, 74, 0.2);
+        }
+
+        .exercise:hover .exercise-image {
+            transform: scale(1.03);
+            border-color: rgba(255, 107, 74, 0.4);
+        }
+
+        /* Exercise Name */
+        .exercise-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #f8f9fa;
+            margin-bottom: 10px;
+        }
+
+        /* Footer Section */
+        .footer {
+            background: linear-gradient(135deg, #ff6b4a, #ff8e53);
+            text-align: center;
+            padding: 20px 0;
+            font-size: 1rem;
+            font-weight: 500;
+            color: white;
+            margin-top: auto;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer span {
+            display: inline-block;
+            animation: pulse 1.5s infinite;
+            color: #ffeb3b;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .header {
+                font-size: 2rem;
+                padding: 20px;
+            }
+            
+            .sub-header {
+                font-size: 1.2rem;
+                margin: 20px 0 30px;
+            }
+            
+            .container {
+                padding: 30px 15px;
+                gap: 20px;
+            }
+            
+            .exercise {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background Slideshow -->
+    <div class="bg-slideshow">
+        <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+        <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+        <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1538805060514-97d9cc17730c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+        <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1545205597-3d9d02c29597?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+    </div>
+
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+        <!-- Header -->
+        <div class="header">SMART PHYSIO SYSTEM</div>
+        <div class="sub-header">Track Every Rep, Crush Every Set!</div>
+
+        <!-- Exercise Grid -->
+        <div class="container">
+            <div class="exercise" onclick="gotopage('biceps')">
+                <div class="exercise-image" style="background-image: url('/static/biceps_curl.png');"></div>
+                <div class="exercise-name">Bicep Curl</div>
+            </div>
+        
+            <div class="exercise" onclick="gotopage('overhead_press')">
+                <div class="exercise-image" style="background-image: url('/static/Shoulder_press.webp');"></div>
+                <div class="exercise-name">Overhead Press</div>
+            </div>
+        
+            <div class="exercise" onclick="gotopage('push_ups')">
+                <div class="exercise-image" style="background-image: url('/static/Pushup.jpg');"></div>
+                <div class="exercise-name">Push Ups</div>
+            </div>
+        
+            <div class="exercise" onclick="gotopage('squats')">
+                <div class="exercise-image" style="background-image: url('/static/squat-exercise-illustration.jpg');"></div>
+                <div class="exercise-name">Squats</div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            Made With <span>💖</span> By Team 3
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Background Slideshow
+        const slides = document.querySelectorAll('.bg-slide');
+        let currentSlide = 0;
+        
+        function showSlide(n) {
+            slides.forEach(slide => slide.style.opacity = 0);
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].style.opacity = 1;
+        }
+        
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+        
+        // Start slideshow
+        showSlide(0);
+        setInterval(nextSlide, 5000);
+
+        // Exercise Redirection
+        function gotopage(exercise) {
+            console.log(`${exercise} clicked! Redirecting...`);
+            window.location.href = `/${exercise}`;
+        }
+    </script>
+</body>
+</html>
